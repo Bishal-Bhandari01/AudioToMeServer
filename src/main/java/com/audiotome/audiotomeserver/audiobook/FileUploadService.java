@@ -13,19 +13,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileUploadService {
     private final Cloudinary cloudi;
-<<<<<<< HEAD
-    public String uploadFile(MultipartFile multipartFile) throws IOException{
-        return cloudi.uploader()
-                .upload(multipartFile.getBytes(), Map.of("public_id",UUID.randomUUID().toString()))
-                        .get("url")
-                        .toString();
-=======
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         return cloudi.uploader()
                 .upload(multipartFile.getBytes(), Map.of("public_id", UUID.randomUUID().toString()))
                 .get("url")
                 .toString();
->>>>>>> 17faaac ( new server hosting)
     }
 }

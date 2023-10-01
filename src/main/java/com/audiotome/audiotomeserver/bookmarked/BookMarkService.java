@@ -32,11 +32,7 @@ public class BookMarkService {
     public BookMarkListResponseDto getBookMark(Long userid) {
         List<BookMarkResponseDto> responseDtoList = new ArrayList<>();
         List<BookMark> bookMarks = bMarkRepo.findByUserId(userid);
-<<<<<<< HEAD
-        for(BookMark bookMark: bookMarks){
-=======
         for (BookMark bookMark : bookMarks) {
->>>>>>> 17faaac ( new server hosting)
             responseDtoList.add(getBookMarkResponse(bookMark));
         }
         BookMarkListResponseDto listResponseDto = new BookMarkListResponseDto();
@@ -44,21 +40,13 @@ public class BookMarkService {
         listResponseDto.setTotal(responseDtoList.size());
         return listResponseDto;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 17faaac ( new server hosting)
     @Transactional
     public void deleteBookmark(Long id) {
         bMarkRepo.deleteById(id);
     }
 
     @Transactional
-<<<<<<< HEAD
-    public void deleteBookMarkByUserId(int id){
-=======
     public void deleteBookMarkByUserId(int id) {
->>>>>>> 17faaac ( new server hosting)
         bMarkRepo.deleteByUserId(id);
     }
 }

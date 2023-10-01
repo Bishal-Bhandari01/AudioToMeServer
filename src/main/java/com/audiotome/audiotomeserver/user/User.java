@@ -1,15 +1,4 @@
 package com.audiotome.audiotomeserver.user;
-<<<<<<< HEAD
-import jakarta.persistence.*;
-import lombok.Data;
-@Data
-@Entity
-@Table(name="user")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-=======
 
 import com.audiotome.audiotomeserver.role.Role;
 import jakarta.persistence.*;
@@ -34,7 +23,6 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue
->>>>>>> 17faaac ( new server hosting)
     public Long id;
     public String firstName;
     public String lastName;
@@ -45,17 +33,11 @@ public class User implements UserDetails {
     public String address;
     public String contactNum;
     public String uProfile;
-<<<<<<< HEAD
-    public UserEnum role;
-    public String registerDate;
-    public String lastLoginDate;
-
-=======
-
     @Enumerated(EnumType.STRING)
     public Role role;
 
     public String registrationDate;
+    public String lastLoginDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -91,5 +73,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
->>>>>>> 17faaac ( new server hosting)
 }

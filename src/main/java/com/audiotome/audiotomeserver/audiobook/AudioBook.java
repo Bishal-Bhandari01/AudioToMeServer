@@ -1,8 +1,5 @@
 package com.audiotome.audiotomeserver.audiobook;
-<<<<<<< HEAD
-=======
 
->>>>>>> 17faaac ( new server hosting)
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,12 +14,7 @@ public class AudioBook {
     public String aBookName;
     public String aBookAuthor;
     public String aBookAudio;
-
-<<<<<<< HEAD
-    @Column(length=665555)
-=======
     @Column(length = 665555)
->>>>>>> 17faaac ( new server hosting)
     public String aBookImage;
 
     public String aDescription;

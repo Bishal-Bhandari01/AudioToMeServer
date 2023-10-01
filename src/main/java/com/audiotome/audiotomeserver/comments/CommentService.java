@@ -36,11 +36,7 @@ public class CommentService {
     public CommentListResponseDto getComments() {
         List<CommentResponseDto> response = new ArrayList<>();
         List<Comments> comm = (List<Comments>) commentRepo.findAll();
-<<<<<<< HEAD
-        for(Comments comment: comm){
-=======
         for (Comments comment : comm) {
->>>>>>> 17faaac ( new server hosting)
             response.add(getCommentsResponseDto(comment));
         }
         CommentListResponseDto responseDto = new CommentListResponseDto();
@@ -48,10 +44,6 @@ public class CommentService {
         responseDto.setTotal(response.size());
         return responseDto;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 17faaac ( new server hosting)
     @Transactional
     public void deleteComments(Long id) throws Exception {
         commentRepo.deleteById(id);
@@ -64,11 +56,7 @@ public class CommentService {
 
     public CommentResponseDto updateComents(Long id, CommentUpdateDto request) {
         Optional<Comments> comments = commentRepo.findById(id);
-<<<<<<< HEAD
-        if(comments.isPresent()){
-=======
         if (comments.isPresent()) {
->>>>>>> 17faaac ( new server hosting)
             Comments comm = comments.get();
             comm.setCommentContent(request.getCommentContent());
             Comments savedComm = commentRepo.save(comm);
@@ -79,11 +67,7 @@ public class CommentService {
 
     public CommentResponseDto updateComentsLike(Long id, CommentUpdateDto request) {
         Optional<Comments> comments = commentRepo.findById(id);
-<<<<<<< HEAD
-        if(comments.isPresent()){
-=======
         if (comments.isPresent()) {
->>>>>>> 17faaac ( new server hosting)
             Comments comm = comments.get();
             comm.setC_likes(request.getC_likes());
             Comments savedComm = commentRepo.save(comm);

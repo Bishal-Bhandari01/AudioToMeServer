@@ -14,12 +14,7 @@ public class AudioBookService {
 
     @Autowired
     private AudioBookRepository audioBookRepo;
-
-<<<<<<< HEAD
-    public AudioBookResponseDto getAudioBookResponseDto(AudioBook savedAudioBook){
-=======
     public AudioBookResponseDto getAudioBookResponseDto(AudioBook savedAudioBook) {
->>>>>>> 17faaac ( new server hosting)
         AudioBookResponseDto response = new AudioBookResponseDto();
         response.setAId(savedAudioBook.getAId());
         response.setABookName(savedAudioBook.getABookName());
@@ -36,11 +31,7 @@ public class AudioBookService {
         List<AudioBookResponseDto> audioBookResponse = new ArrayList<>();
         List<AudioBook> audioBook = (List<AudioBook>) audioBookRepo.findAll();
 
-<<<<<<< HEAD
-        for(AudioBook audioBooks : audioBook) {
-=======
         for (AudioBook audioBooks : audioBook) {
->>>>>>> 17faaac ( new server hosting)
             audioBookResponse.add(getAudioBookResponseDto(audioBooks));
         }
         AudioBookListResponseDto response = new AudioBookListResponseDto();
@@ -50,11 +41,8 @@ public class AudioBookService {
         return response;
     }
 
-<<<<<<< HEAD
-    public String GetToDayDate(){
-=======
+
     public String GetToDayDate() {
->>>>>>> 17faaac ( new server hosting)
         LocalDate myObj = LocalDate.now(); // Create a date object
         return myObj.toString();
     }
@@ -75,11 +63,7 @@ public class AudioBookService {
 
     public AudioBookResponseDto updateAudioBook(Long aId, AudioBookUpdateDto request) {
         Optional<AudioBook> optAudioBook = audioBookRepo.findById(aId);
-<<<<<<< HEAD
-        if(optAudioBook.isPresent()){
-=======
         if (optAudioBook.isPresent()) {
->>>>>>> 17faaac ( new server hosting)
             AudioBook newAudioBook = new AudioBook();
             newAudioBook.setABookName(request.getABookName());
             newAudioBook.setABookAuthor(request.getABookAuthor());
@@ -95,17 +79,9 @@ public class AudioBookService {
 
     public AudioBookResponseDto getAudioBookById(Long aId) {
         Optional<AudioBook> audioBook = audioBookRepo.findById(aId);
-<<<<<<< HEAD
-        if (audioBook.isPresent()){
-            return getAudioBookResponseDto(audioBook.get());
-        }
-        return null;
-    }
-=======
         return audioBook.map(this::getAudioBookResponseDto).orElse(null);
     }
 
->>>>>>> 17faaac ( new server hosting)
     @Transactional
     public void deleteById(Long id) {
         audioBookRepo.deleteById(id);
@@ -114,11 +90,7 @@ public class AudioBookService {
     public AudioBookListResponseDto getaudioBookByTitle(String title) {
         List<AudioBookResponseDto> responseDtos = new ArrayList<>();
         List<AudioBook> audioBook = audioBookRepo.findByaBookNameContaining(title);
-<<<<<<< HEAD
-        for(AudioBook audioBooks:audioBook){
-=======
         for (AudioBook audioBooks : audioBook) {
->>>>>>> 17faaac ( new server hosting)
             responseDtos.add(getAudioBookResponseDto(audioBooks));
         }
         AudioBookListResponseDto responseDto = new AudioBookListResponseDto();
@@ -130,11 +102,7 @@ public class AudioBookService {
     public AudioBookListResponseDto getAudioBooksByStatus(Status status) {
         List<AudioBookResponseDto> responseDtos = new ArrayList<>();
         List<AudioBook> aBook = audioBookRepo.findByStatus(status);
-<<<<<<< HEAD
-        for (AudioBook audioBook: aBook){
-=======
         for (AudioBook audioBook : aBook) {
->>>>>>> 17faaac ( new server hosting)
             responseDtos.add(getAudioBookResponseDto(audioBook));
         }
         AudioBookListResponseDto response = new AudioBookListResponseDto();

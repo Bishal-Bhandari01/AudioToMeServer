@@ -30,11 +30,7 @@ public class NotesService {
         response.setTitle(savedNotes.getTitle());
         response.setNoteDesc(savedNotes.getNoteDesc());
         response.setNoteDate(savedNotes.getNoteDate());
-<<<<<<< HEAD
-        response.setUserId( savedNotes.getUserId());
-=======
         response.setUserId(savedNotes.getUserId());
->>>>>>> 17faaac ( new server hosting)
 
         return response;
     }
@@ -42,11 +38,7 @@ public class NotesService {
     public NotesListResponseDto getNotes() {
         List<NoteResponseDto> res = new ArrayList<>();
         List<Notes> note = (List<Notes>) noteRepo.findAll();
-<<<<<<< HEAD
-        for (Notes notes : note){
-=======
         for (Notes notes : note) {
->>>>>>> 17faaac ( new server hosting)
             res.add(getNotesResponseDto(notes));
         }
         NotesListResponseDto responseDto = new NotesListResponseDto();
@@ -57,11 +49,7 @@ public class NotesService {
 
     public NoteResponseDto getNotesById(Long id) {
         Optional<Notes> notes = noteRepo.findById(id);
-<<<<<<< HEAD
-        if(notes.isPresent()){
-=======
         if (notes.isPresent()) {
->>>>>>> 17faaac ( new server hosting)
             return getNotesResponseDto(notes.get());
         }
         return null;
@@ -70,11 +58,7 @@ public class NotesService {
     public NotesListResponseDto getNotesByUserId(Long user_id) {
         List<NoteResponseDto> resp = new ArrayList<>();
         List<Notes> notes = noteRepo.findByUserId(user_id);
-<<<<<<< HEAD
-        for(Notes note : notes){
-=======
         for (Notes note : notes) {
->>>>>>> 17faaac ( new server hosting)
             resp.add(getNotesResponseDto(note));
         }
         NotesListResponseDto notesResponse = new NotesListResponseDto();
@@ -85,11 +69,7 @@ public class NotesService {
 
     public NoteResponseDto updateNotes(Long id, NoteUpdateDto request) {
         Optional<Notes> notes = noteRepo.findById(id);
-<<<<<<< HEAD
-        if (notes.isPresent()){
-=======
         if (notes.isPresent()) {
->>>>>>> 17faaac ( new server hosting)
             Notes note = notes.get();
             note.setTitle(request.getTitle());
             note.setNoteDate(GetToDayDate());
@@ -99,20 +79,12 @@ public class NotesService {
         }
         return null;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 17faaac ( new server hosting)
     @Transactional
     public void deleteNote(Long aid) {
         noteRepo.deleteById(aid);
     }
 
-<<<<<<< HEAD
-    public String GetToDayDate(){
-=======
     public String GetToDayDate() {
->>>>>>> 17faaac ( new server hosting)
         LocalDate myObj = LocalDate.now(); // Create a date object
         return myObj.toString();
     }
