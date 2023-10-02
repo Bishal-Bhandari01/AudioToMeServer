@@ -19,5 +19,4 @@ public class UserResponseDto {
     private String uProfile;
     private Role role;
     private String registerDate;
-    private String lastLoginDate;
 }

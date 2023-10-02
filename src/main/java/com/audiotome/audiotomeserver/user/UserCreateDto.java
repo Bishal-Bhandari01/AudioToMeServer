@@ -17,6 +17,5 @@ public class UserCreateDto {
     private String uProfile;
     private Role role;
     private String registerDate;
-    private String lastLoginDate;
 
 }

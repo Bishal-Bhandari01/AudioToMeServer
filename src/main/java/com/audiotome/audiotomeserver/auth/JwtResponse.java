@@ -1,5 +1,6 @@
 package com.audiotome.audiotomeserver.auth;
 
+import com.audiotome.audiotomeserver.user.User;
 import lombok.*;
 
 @Getter
@@ -11,5 +12,7 @@ public class JwtResponse {
 
     private String jwt;
     private String message;
+
+    private User user;
 
 }

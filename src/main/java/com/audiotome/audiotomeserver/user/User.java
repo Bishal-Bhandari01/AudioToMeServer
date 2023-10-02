@@ -37,7 +37,6 @@ public class User implements UserDetails {
     public Role role;
 
     public String registrationDate;
-    public String lastLoginDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

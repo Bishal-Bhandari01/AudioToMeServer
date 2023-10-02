@@ -13,16 +13,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@CrossOrigin
 public class AuthController {
 
     @Autowired
@@ -59,13 +58,13 @@ public class AuthController {
 
         this.doAuthenticate(request.getEmail(),request.getPassword());
 
-        System.out.println("request: " + request);
-
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+        Optional<User> optUser = userRepo.findByEmail(request.getEmail());
         String token = jwtHelper.generateToken(userDetails);
         JwtResponse response = JwtResponse.builder()
                 .jwt(token)
                 .message("Login successfully!")
+                .user(optUser.get())
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);

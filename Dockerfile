@@ -1,8 +1,6 @@
-ROM maven:3.8.5-openjdk-17 AS build
-COPY . .
-RUN mvn clean package -DskipTests
-
-FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /target/demo-0.0.1-SNAPSHOT demo.jar
+FROM openjdk:17
+VOLUME /tmp
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","demo.jar"]
+ARG JAR_FILE=target/audiotomeserver-0.0.1-SNAPSHOT.jar
+ADD ${JAR_FILE} audiotomeserver.jar
+ENTRYPOINT ["java","-jar","/audiotomeserver.jar"]
