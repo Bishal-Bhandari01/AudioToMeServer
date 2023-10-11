@@ -1,9 +1,15 @@
 package com.audiotome.audiotomeserver.audiobook;
 
+import com.audiotome.audiotomeserver.constant.DateTime;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +48,9 @@ public class AudioBookService {
     }
 
 
-    public String GetToDayDate() {
+    public LocalDate GetToDayDate() {
         LocalDate myObj = LocalDate.now(); // Create a date object
-        return myObj.toString();
+        return myObj;
     }
 
     public AudioBookResponseDto saveAudioBook(AudioBookCreateDto request) {
@@ -105,6 +111,65 @@ public class AudioBookService {
         for (AudioBook audioBook : aBook) {
             responseDtos.add(getAudioBookResponseDto(audioBook));
         }
+        AudioBookListResponseDto response = new AudioBookListResponseDto();
+        response.setResponse(responseDtos);
+        response.setTotal(responseDtos.size());
+        return response;
+    }
+
+    public DateTime getAudiobookBasedOnTime() {
+        LocalDate today = LocalDate.now();
+        List<AudioBook> user = audioBookRepo.findByaUploadDate(today);
+
+        LocalDate currentMonthDate = LocalDate.now();
+        LocalDate startOfMonth = currentMonthDate.withDayOfMonth(1);
+        LocalDate endOfMonth = currentMonthDate.withDayOfMonth(currentMonthDate.lengthOfMonth());
+        List<AudioBook> monthlyuser = audioBookRepo.findByaUploadDateBetween(startOfMonth,endOfMonth);
+
+        LocalDate currentYearDate = LocalDate.now();
+        LocalDate startOfYear = currentYearDate.withDayOfYear(1);
+        LocalDate endOfYear = currentYearDate.withDayOfYear(currentYearDate.lengthOfYear());
+        List<AudioBook> yearlyuser = audioBookRepo.findByaUploadDateBetween(startOfYear, endOfYear);
+
+        LocalDate weekly = LocalDate.now();
+        LocalDate startDate = weekly;
+        LocalDate endDate = weekly;
+
+        // Find the start date (Monday) of the week
+        while (startDate.getDayOfWeek() != DayOfWeek.SUNDAY) {
+            startDate = startDate.minusDays(1);
+        }
+
+        // Find the end date (Sunday) of the week
+        while (endDate.getDayOfWeek() != DayOfWeek.SATURDAY) {
+            endDate = endDate.plusDays(1);
+
+        }
+        List<AudioBook> weeklyUsers = audioBookRepo.findByaUploadDateBetween(startDate, endDate);
+
+        List<AudioBook> users = (List<AudioBook>) audioBookRepo.findAll();
+
+        var dateTime = DateTime.builder()
+                .daily(user.size())
+                .monthly(monthlyuser.size())
+                .weekly(weeklyUsers.size())
+                .yearly(yearlyuser.size())
+                .totally(users.size())
+                .build();
+
+        return dateTime;
+    }
+
+    public AudioBookListResponseDto getAudioBookBasedOnListen() {
+        Pageable page = (Pageable) PageRequest.of(0,5);
+        List<AudioBook> book = audioBookRepo.findTop5ByOrderByListenDesc();
+
+        List<AudioBookResponseDto> responseDtos = new ArrayList<>();
+
+        for (AudioBook audioBook : book) {
+            responseDtos.add(getAudioBookResponseDto(audioBook));
+        }
+
         AudioBookListResponseDto response = new AudioBookListResponseDto();
         response.setResponse(responseDtos);
         response.setTotal(responseDtos.size());

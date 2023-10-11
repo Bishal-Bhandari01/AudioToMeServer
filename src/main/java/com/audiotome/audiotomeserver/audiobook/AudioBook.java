@@ -3,6 +3,8 @@ package com.audiotome.audiotomeserver.audiobook;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @Table(name = "audiobook")
@@ -18,7 +20,7 @@ public class AudioBook {
     public String aBookImage;
 
     public String aDescription;
-    public String aUploadDate;
+    public LocalDate aUploadDate;
     public Status status;
-    public int likeCounter;
+    public int listen;
 }

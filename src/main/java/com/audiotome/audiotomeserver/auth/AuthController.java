@@ -1,6 +1,6 @@
 package com.audiotome.audiotomeserver.auth;
 
-import com.audiotome.audiotomeserver.config.JwtHelper;
+import com.audiotome.audiotomeserver.config.JwtService;
 import com.audiotome.audiotomeserver.user.User;
 import com.audiotome.audiotomeserver.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,23 +15,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@CrossOrigin(origins="*")
 @RequiredArgsConstructor
-@CrossOrigin
 public class AuthController {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private AuthenticationManager authmanager;
+    private final AuthenticationManager authmanager;
 
-    @Autowired
-    private JwtHelper jwtHelper;
+    private final JwtService jwtHelper;
 
     private final PasswordEncoder passencoder;
 
@@ -46,7 +43,7 @@ public class AuthController {
                 .email(request.getEmail())
                 .password(passencoder.encode(request.getPassword()))
                 .dob((request.getDob()))
-                .registrationDate(String.valueOf(new Date()))
+                .registrationDate(LocalDate.now())
                 .role(request.getRole())
                 .build();
         userRepo.save(user);
@@ -61,6 +58,7 @@ public class AuthController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         Optional<User> optUser = userRepo.findByEmail(request.getEmail());
         String token = jwtHelper.generateToken(userDetails);
+
         JwtResponse response = JwtResponse.builder()
                 .jwt(token)
                 .message("Login successfully!")
@@ -70,9 +68,13 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    private void doAuthenticate(String email, String password) throws BadCredentialsException {
+    private void doAuthenticate(
+            String email,
+            String password
+    ) throws BadCredentialsException {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                email,password
+                email,
+                password
         );
         authmanager.authenticate(authToken);
     }

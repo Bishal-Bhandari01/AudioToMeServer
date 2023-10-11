@@ -1,5 +1,6 @@
 package com.audiotome.audiotomeserver.audiobook;
 
+import com.audiotome.audiotomeserver.constant.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -8,8 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("api/v1/audiobook")
-@CrossOrigin
+@RequestMapping("/api/v1/audiobook")
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 public class AudioBookController {
 
     @Autowired
@@ -58,5 +59,15 @@ public class AudioBookController {
     public String FileUpload(@RequestPart("file") MultipartFile file) throws IOException {
 
         return fileUploadService.uploadFile(file);
+    }
+
+    @RequestMapping(value = "/getAudiobookBasedOnTime", method = RequestMethod.POST)
+    public DateTime getAudiobookBasedOnTime(){
+        return audioBookService.getAudiobookBasedOnTime();
+    }
+
+    @RequestMapping(value = "/getAudioBookBasedonListen", method = RequestMethod.POST)
+    public AudioBookListResponseDto getAudioBookBasedOnListen(){
+        return audioBookService.getAudioBookBasedOnListen();
     }
 }

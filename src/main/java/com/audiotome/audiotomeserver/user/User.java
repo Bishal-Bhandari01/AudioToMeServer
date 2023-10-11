@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     public Role role;
 
-    public String registrationDate;
+    public LocalDate registrationDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

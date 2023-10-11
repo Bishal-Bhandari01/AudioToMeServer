@@ -1,12 +1,13 @@
 package com.audiotome.audiotomeserver.user;
+import com.audiotome.audiotomeserver.constant.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/api/v1/user")
-@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -52,5 +53,10 @@ public class UserController {
     @RequestMapping(value = "/deleteById", method = RequestMethod.DELETE)
     public void DeleteUserById(@RequestParam("id") Long id) {
         userService.deleteById(id);
+    }
+
+    @RequestMapping(value = "/getUserBasedOnTime", method = RequestMethod.POST)
+    public DateTime getUserBasedOnTime(){
+        return userService.getUserBasedOnTime();
     }
 }

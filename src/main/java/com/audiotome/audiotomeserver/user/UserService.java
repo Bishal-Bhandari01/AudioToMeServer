@@ -1,18 +1,19 @@
 package com.audiotome.audiotomeserver.user;
 
+import com.audiotome.audiotomeserver.constant.DateTime;
 import com.audiotome.audiotomeserver.role.Role;
 import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -27,9 +28,9 @@ public class UserService {
     public UserService() {
     }
 
-    public String GetToDayDate() {
-        LocalDate myObj = LocalDate.now(); // Create a date object
-        return myObj.toString();
+    public LocalDate GetToDayDate() {
+        LocalDate myObj = LocalDate.now(); // Create a date objec
+        return myObj;
     }
 
     public UserResponseDto saveUser(UserCreateDto request) {
@@ -38,7 +39,7 @@ public class UserService {
                 .middleName(request.getMiddleName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(HashedPassword(request.getPassword()))
                 .registrationDate(GetToDayDate())
                 .dob(request.getDob())
                 .role(Role.USER)
@@ -112,8 +113,8 @@ public class UserService {
     }
 
     public String HashedPassword(@NonNull String passwd) {
-        this.passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = this.passwordEncoder.encode(passwd);
+        passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(passwd);
         return hashedPassword;
     }
 
@@ -150,4 +151,48 @@ public class UserService {
     public void deleteById(Long id) {
         userRepo.deleteById(id);
     }
+
+    public DateTime getUserBasedOnTime() {
+
+        LocalDate today = LocalDate.now();
+        List<User> user = userRepo.findByRegistrationDate(today);
+
+        LocalDate currentMonthDate = LocalDate.now();
+        LocalDate startOfMonth = currentMonthDate.withDayOfMonth(1);
+        LocalDate endOfMonth = currentMonthDate.withDayOfMonth(currentMonthDate.lengthOfMonth());
+        List<User> monthlyuser = userRepo.findByRegistrationDateBetween(startOfMonth,endOfMonth);
+
+        LocalDate currentYearDate = LocalDate.now();
+        LocalDate startOfYear = currentYearDate.withDayOfYear(1);
+        LocalDate endOfYear = currentYearDate.withDayOfYear(currentYearDate.lengthOfYear());
+        List<User> yearlyuser = userRepo.findByRegistrationDateBetween(startOfYear, endOfYear);
+
+        LocalDate weekly = LocalDate.now();
+        LocalDate startDate = weekly;
+        LocalDate endDate = weekly;
+
+        // Find the start date (Monday) of the week
+        while (startDate.getDayOfWeek() != DayOfWeek.SUNDAY) {
+            startDate = startDate.minusDays(1);
+        }
+
+        // Find the end date (Sunday) of the week
+        while (endDate.getDayOfWeek() != DayOfWeek.SATURDAY) {
+            endDate = endDate.plusDays(1);
+        }
+        List<User> weeklyUsers = userRepo.findByRegistrationDateBetween(startDate, endDate);
+
+        List<User> users = userRepo.findAll();
+
+        var dateTime = DateTime.builder()
+                .daily(user.size())
+                .monthly(monthlyuser.size())
+                .weekly(weeklyUsers.size())
+                .yearly(yearlyuser.size())
+                .totally(users.size())
+                .build();
+
+        return dateTime;
+    }
+
 }
