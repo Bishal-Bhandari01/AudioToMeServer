@@ -1,17 +1,26 @@
 package com.audiotome.audiotomeserver.user;
+import com.audiotome.audiotomeserver.cloudinary.FileUploadResponse;
+import com.audiotome.audiotomeserver.cloudinary.FileUploadService;
 import com.audiotome.audiotomeserver.constant.DateTime;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/api/v1/user")
+@RequiredArgsConstructor
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    private final FileUploadService fileUpload;
 
     @PostMapping("/saveUser")
     public ResponseEntity<UserResponseDto> register(
@@ -20,13 +29,18 @@ public class UserController {
         return ResponseEntity.ok(userService.saveUser(request));
     }
 
+    @RequestMapping(value="/profileUpdate", method = RequestMethod.POST)
+    public ResponseEntity<FileUploadResponse> SaveFileCloud(@RequestPart("image") MultipartFile file) throws IOException {
+        return ResponseEntity.ok(fileUpload.uploadFile(file));
+    }
+
     @GetMapping("/getUser")
     @ResponseStatus(code = HttpStatus.OK)
     public UserListResponseDto GetAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/getUserById")
+        @GetMapping("/getUserById")
     @ResponseStatus(code = HttpStatus.OK)
     public UserResponseDto GetUserByID(@RequestParam("id") Long id) {
         return userService.getUserById(id);

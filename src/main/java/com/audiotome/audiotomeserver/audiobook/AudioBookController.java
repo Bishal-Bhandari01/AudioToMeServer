@@ -1,5 +1,7 @@
 package com.audiotome.audiotomeserver.audiobook;
 
+import com.audiotome.audiotomeserver.cloudinary.FileUploadResponse;
+import com.audiotome.audiotomeserver.cloudinary.FileUploadService;
 import com.audiotome.audiotomeserver.constant.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +58,7 @@ public class AudioBookController {
     }
 
     @RequestMapping(value = "/postAudioBook", method = RequestMethod.POST)
-    public String FileUpload(@RequestPart("file") MultipartFile file) throws IOException {
+    public FileUploadResponse FileUpload(@RequestPart("file") MultipartFile file) throws IOException {
 
         return fileUploadService.uploadFile(file);
     }

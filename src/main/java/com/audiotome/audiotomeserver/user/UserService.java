@@ -104,6 +104,7 @@ public class UserService {
             user.setMiddleName(request.getMiddleName());
             user.setDob(request.getDob());
             user.setAddress(request.getAddress());
+            user.setContactNum(request.getContactNum());
             user.setUProfile(request.getUProfile());
 
             User users = userRepo.save(user);

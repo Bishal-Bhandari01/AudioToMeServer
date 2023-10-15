@@ -33,7 +33,10 @@ public class User implements UserDetails {
     public String password;
     public String address;
     public String contactNum;
+
+    @Column(length = 665555555)
     public String uProfile;
+
     @Enumerated(EnumType.STRING)
     public Role role;
 

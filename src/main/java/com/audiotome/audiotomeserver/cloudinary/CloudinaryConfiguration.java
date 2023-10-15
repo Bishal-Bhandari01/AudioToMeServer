@@ -1,4 +1,4 @@
-package com.audiotome.audiotomeserver.audiobook;
+package com.audiotome.audiotomeserver.cloudinary;
 
 import com.cloudinary.Cloudinary;
 import org.springframework.context.annotation.Bean;
